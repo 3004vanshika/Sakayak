@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Your Profile</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="app">
+
+  <section class="content">
+
+    <h1 class="title">Complete Your Profile</h1>
+
+    <!-- Illustration (simple placeholder icon) -->
+    <div class="profile-icon">
+      📱
+    </div>
+
+    <h2 class="subtitle">Tell Us About Yourself</h2>
+
+    <p class="description">
+      Help us personalize your experience.
+      You can always update this later.
+    </p>
+
+    <!-- Full Name -->
+    <label class="label">Full Name *</label>
+    <input
+      type="text"
+      id="fullname"
+      placeholder="Enter your full name"
+      class="text-input"
+      oninput="checkForm()"
+    />
+
+    <!-- Age -->
+    <label class="label">Age</label>
+    <select id="age" class="text-input" onchange="checkForm()">
+      <option value="">Select age</option>
+      <!-- Age range -->
+      <script>
+        for (let i = 13; i <= 80; i++) {
+          document.write(`<option value="${i}">${i}</option>`);
+        }
+      </script>
+    </select>
+
+    <!-- Gender -->
+    <label class="label">Gender</label>
+    <div class="gender-group">
+      <button class="gender-btn" onclick="selectGender(this, 'Male')">Male</button>
+      <button class="gender-btn" onclick="selectGender(this, 'Female')">Female</button>
+      <button class="gender-btn" onclick="selectGender(this, 'Other')">Other</button>
+    </div>
+
+    <!-- Finish Setup -->
+    <button
+  id="finishBtn"
+  class="primary-btn disabled"
+  disabled
+  onclick="finishSetup()"
+>
+  Finish Setup
+</button>
+
+  </section>
+
+</main>
+
+<script>
+let selectedGender = "";
+
+function selectGender(button, gender) {
+  document.querySelectorAll(".gender-btn").forEach(btn =>
+    btn.classList.remove("active")
+  );
+  button.classList.add("active");
+  selectedGender = gender;
+  checkForm();
+}
+
+function checkForm() {
+  const name = document.getElementById("fullname").value.trim();
+  const age = document.getElementById("age").value;
+  const finishBtn = document.getElementById("finishBtn");
+
+  if (name !== "" && age !== "" && selectedGender !== "") {
+    finishBtn.disabled = false;
+    finishBtn.classList.remove("disabled");
+  } else {
+    finishBtn.disabled = true;
+    finishBtn.classList.add("disabled");
+  }
+}
+
+function finishSetup() {
+  // Final navigation after profile completion
+  window.location.href = "screen6.html";
+}
+</script>
+
+
+
+</body>
+</html>

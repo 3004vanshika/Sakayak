@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="app">
+  <section class="content">
+
+    <h1 class="title">Verify OTP</h1>
+
+    <input id="otp" maxlength="6" class="otp-input" placeholder="Enter OTP">
+
+    <p id="otp-error" class="error-message"></p>
+
+    <button class="primary-btn" onclick="verifyOTP()">Verify</button>
+
+  </section>
+</main>
+
+<script>
+async function verifyOTP() {
+  const otp = document.getElementById("otp").value.trim();
+  const phone = localStorage.getItem("phone");
+  const error = document.getElementById("otp-error");
+
+  if (!/^[0-9]{6}$/.test(otp)) {
+    error.textContent = "Enter valid 6-digit OTP";
+    return;
+  }
+
+  const response = await fetch("http://127.0.0.1:5000/verify-otp", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, otp })
+  });
+
+  const data = await response.json();
+
+  if (data.success) {
+    window.location.href = "screen5.html";
+  } else {
+    error.textContent = "Incorrect OTP";
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SignUp / Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="app">
+  <section class="content">
+
+    <h1 class="title">SignUp / Login</h1>
+    <p class="description">Enter your phone number</p>
+
+    <div class="phone-group">
+      <div class="country-code">🇮🇳 +91</div>
+      <input id="phone" maxlength="10" placeholder="Phone number" class="phone-input">
+    </div>
+
+    <p id="error" class="error-message"></p>
+
+    <button class="primary-btn" onclick="sendOTP()">Continue</button>
+
+  </section>
+</main>
+
+<script>
+async function sendOTP() {
+  const phone = document.getElementById("phone").value.trim();
+  const error = document.getElementById("error");
+
+  if (!/^[0-9]{10}$/.test(phone)) {
+    error.textContent = "Enter a valid 10-digit phone number";
+    return;
+  }
+
+  localStorage.setItem("phone", phone);
+
+  const response = await fetch("http://127.0.0.1:5000/send-otp", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone })
+  });
+
+  const data = await response.json();
+
+  // DEMO OTP DISPLAY
+  alert("Your OTP is: " + data.otp);
+
+  window.location.href ="screen4.html";
+}
+</script>
+
+</body>
+</html>
